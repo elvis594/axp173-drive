@@ -1,0 +1,61 @@
+{
+  "name": "AXP173-Driver",
+  "version": "1.0.0",
+  "description": "AXP173 Power Management IC Driver Library for ESP32 and other microcontrollers",
+  "keywords": [
+    "axp173",
+    "power management",
+    "battery",
+    "esp32",
+    "i2c",
+    "pmic"
+  ],
+  "authors": [
+    {
+      "name": "Your Name",
+      "email": "your.email@example.com",
+      "maintainer": true
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/axp173-drive.git"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/your-username/axp173-drive",
+  "frameworks": [
+    "arduino",
+    "espidf"
+  ],
+  "platforms": [
+    "espressif32",
+    "ststm32"
+  ],
+  "headers": [
+    "axp173/axp173.hpp",
+    "i2c_manager/i2c_manager.hpp"
+  ],
+  "export": {
+    "include": "include",
+    "exclude": [
+      "docs",
+      "cmake",
+      "CMakeLists.txt"
+    ]
+  },
+  "dependencies": [],
+  "examples": [
+    {
+      "name": "Basic Example",
+      "base": "examples/basic_example.cpp"
+    },
+    {
+      "name": "Full Featured Example", 
+      "base": "examples/axp173_example.cpp"
+    },
+    {
+      "name": "Multi-platform Usage",
+      "base": "examples/usage_examples.cpp"
+    }
+  ]
+}
