@@ -167,23 +167,110 @@ Axp173<I2C> axp(i2c, 0x34);
 
 ## 快速开始
 
+### 平台宏定义说明
+
+库使用预处理器宏来自动选择合适的I2C实现：
+
+```cpp
+// 便捷的类型定义
+#ifdef ARDUINO
+  using I2C = I2CManager<I2CImplESP32>;
+#elif defined(ESP_PLATFORM)
+  using I2C = I2CManager<I2CImplESP32IDF>;
+#elif defined(STM32)
+  using I2C = I2CManager<I2CImplSTM32>;
+#endif
+```
+
+**宏定义自动设置情况**：
+
+- **ARDUINO**: Arduino IDE和PlatformIO的Arduino框架会自动定义
+- **ESP_PLATFORM**: ESP-IDF构建系统会自动设置为1
+- **STM32**: 需要在STM32项目中手动定义或通过构建系统设置
+
 ### 1. 基本初始化
+
+#### 方法1: 使用自动类型定义（推荐）
 
 ```cpp
 #include "axp173/axp173.hpp"
 #include "i2c_manager/i2c_manager.hpp"
 
-// 创建I2C管理器和AXP173实例
+// 使用自动选择的I2C类型
 I2C i2c;
 Axp173<I2C> axp(i2c, 0x34);
 
 void setup() {
     // 初始化I2C
-    i2c.init(21, 22, 400000);  // SDA=21, SCL=22, 400kHz
+    if (!i2c.init(21, 22, 400000)) {
+        // I2C初始化失败处理
+        return;
+    }
     
     // 初始化AXP173
-    axp.init();
+    if (!axp.init()) {
+        // AXP173初始化失败处理
+        return;
+    }
+    
+    // 配置电源输出
+    axp.setVoltage(VOLT_DC1, 3300);  // 设置DC1为3.3V
+    axp.enableOutput(EN_DC1);        // 启用DC1输出
 }
+```
+
+#### 方法2: 手动指定I2C实现
+
+```cpp
+#include "axp173/axp173.hpp"
+#include "i2c_manager/i2c_manager.hpp"
+
+// 手动指定I2C实现类型
+#ifdef ARDUINO
+  I2CManager<I2CImplESP32> i2c;
+#elif defined(ESP_PLATFORM)
+  I2CManager<I2CImplESP32IDF> i2c;
+#elif defined(STM32)
+  I2CManager<I2CImplSTM32> i2c;
+#endif
+
+Axp173<decltype(i2c)> axp(i2c, 0x34);
+
+// 其余初始化代码相同...
+```
+
+#### 方法3: 特定平台初始化
+
+**Arduino/PlatformIO:**
+```cpp
+#include "axp173/axp173.hpp"
+#include "i2c_manager/i2c_manager.hpp"
+
+I2C i2c;  // 自动解析为 I2CManager<I2CImplESP32>
+Axp173<I2C> axp(i2c, 0x34);
+```
+
+**ESP-IDF:**
+```cpp
+#include "axp173/axp173.hpp"
+#include "i2c_manager/i2c_manager.hpp"
+
+I2C i2c;  // 自动解析为 I2CManager<I2CImplESP32IDF>
+Axp173<I2C> axp(i2c, 0x34);
+```
+
+**STM32 HAL:**
+```cpp
+#include "axp173/axp173.hpp"
+#include "i2c_manager/i2c_manager.hpp"
+
+// 确保定义了STM32宏
+#ifndef STM32
+#define STM32
+#endif
+
+I2C i2c;  // 自动解析为 I2CManager<I2CImplSTM32>
+Axp173<I2C> axp(i2c, 0x34);
 ```
 
 ### 2. 默认配置
