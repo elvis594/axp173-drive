@@ -1,9 +1,12 @@
 {
-  "name": "AXP173-Driver",
-  "version": "1.0.0",
-  "description": "AXP173 Power Management IC Driver Library for ESP32 and other microcontrollers",
+  "name": "AXP-Driver",
+  "version": "1.1.0",
+  "description": "AXP Series Power Management IC Driver Library for ESP32 and other microcontrollers (AXP173, AXP192, AXP2101)",
   "keywords": [
+    "axp",
     "axp173",
+    "axp192",
+    "axp2101",
     "power management",
     "battery",
     "esp32",
@@ -19,10 +22,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-username/axp173-drive.git"
+    "url": "https://github.com/elvis594/axp-driver.git"
   },
   "license": "MIT",
-  "homepage": "https://github.com/your-username/axp173-drive",
+  "homepage": "https://github.com/elvis594/axp-driver",
   "frameworks": [
     "arduino",
     "espidf"

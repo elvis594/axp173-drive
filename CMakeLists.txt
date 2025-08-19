@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.10)
 
 # 项目信息
-project(AXP173_Driver
-    VERSION 1.0.0
-    DESCRIPTION "AXP173 Power Management IC Driver Library"
+project(AXP_Driver
+    VERSION 1.1.0
+    DESCRIPTION "AXP Series Power Management IC Driver Library"
     LANGUAGES CXX
 )
 
